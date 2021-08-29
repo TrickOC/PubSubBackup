@@ -56,7 +56,7 @@ public class OneAppl {
     }
 
     public static void main(String[] args) {
-        int numberOfClients = 3, numberOfAccess = 1, clientPort = 23000, brokerPort = 30000, backupPort = 30001;
+        int numberOfClients = 5, numberOfAccess = 3, clientPort = 30100, brokerPort = 30000, backupPort = 30001;
         String clientAddress = "localhost", brokerAddress = "localhost", backupAddress = "localhost";
         Iterator<String> itArgs = Arrays.stream(args).iterator();
         while (itArgs.hasNext()) {

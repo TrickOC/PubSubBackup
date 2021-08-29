@@ -3,17 +3,19 @@ Trabalho prático 3 de Sistemas Distribuídos [BCC362].
 
 ## Execução
 
+Broker e Client compilado no java 16.0.2.
+
 ### Broker
 Utilizando a entrada interativa de configurações: `java -jar Broker.jar`
 
-Ou utilizando os argumentos abaixo: `java -jar Broker.jar -bp 30000 -p -sb localhost -sp 30001`
+Ou utilizando os argumentos abaixo: `java -jar Broker.jar -bp 30000 -p -sb localhost -sbp 30001`
 
 |Args|Descrição|Exemplo|
 |:---:|:---:|:---:|
 |-bp|Porta do Broker|`-bp 30000`|
 |-p|Identifica como primário|`-p`|
 |-sb|Endereço do Broker Backup|`-sb 127.0.0.1`|
-|-sp|Porta do Broker Backup|`-sp 30001`|
+|-sbp|Porta do Broker Backup|`-sbp 30001`|
 
 ### Client
 Utilizando as configurações padrões: `java -jar Client.jar`

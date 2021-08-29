@@ -4,10 +4,7 @@ import core.Message;
 import core.MessageImpl;
 import core.Server;
 import core.client.Client;
-
-import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 public class PubSubClient {
 
@@ -65,6 +62,19 @@ public class PubSubClient {
             Client clientBackup = new Client(backupAddress, backupPort);
             clientBackup.sendReceive(msgBroker);
 
+            // Troca os endereços do broker
+            this.brokerAddress = backupAddress;
+            this.brokerPort = backupPort;
+            this.backupAddress = null;
+            this.backupPort = -1;
+
+            // Espera um tempo para poder reenviar o sub
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException se) {
+                se.printStackTrace();
+            }
+
             msgBroker = new MessageImpl();
             msgBroker.setBrokerId(backupPort);
             msgBroker.setType("sub");
@@ -77,8 +87,6 @@ public class PubSubClient {
                 subscriber = new Client(brokerAddress, brokerPort);
                 subscriber.sendReceive(msgBroker);
             }
-            this.brokerAddress = backupAddress;
-            this.brokerPort = backupPort;
         }
     }
 
@@ -123,10 +131,33 @@ public class PubSubClient {
             Client clientBackup = new Client(backupAddress, backupPort);
             clientBackup.sendReceive(msgBroker);
 
-            this.brokerAddress = backupAddress;
-            this.brokerPort = backupPort;
-            this.backupAddress = null;
-            this.backupPort = -1;
+            // Troca os endereços do broker
+            brokerAddress = backupAddress;
+            brokerPort = backupPort;
+
+            // Espera um tempo para poder reenviar o pub
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException se) {
+                se.printStackTrace();
+            }
+
+            Message msgPub = new MessageImpl();
+            msgPub.setBrokerId(brokerPort);
+            msgPub.setType("pub");
+            msgPub.setContent(message);
+
+            Client publisher = new Client(brokerAddress, brokerPort);
+            Message response = publisher.sendReceive(msgPub);
+
+            if (response != null) {
+                if(response.getType().equals("backup")){
+                    brokerAddress = response.getContent().split(":")[0];
+                    brokerPort = Integer.parseInt(response.getContent().split(":")[1]);
+                    publisher = new Client(brokerAddress, brokerPort);
+                    publisher.sendReceive(msgPub);
+                }
+            }
         }
     }
 

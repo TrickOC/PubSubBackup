@@ -5,6 +5,7 @@ Trabalho prático 3 de Sistemas Distribuídos [BCC362].
 
 ### Broker
 Utilizando a entrada interativa de configurações: `java -jar Broker.jar`
+
 Ou utilizando os argumentos abaixo: `java -jar Broker.jar -bp 30000 -p -sb localhost -sp 30001`
 
 |Args|Descrição|Exemplo|
@@ -16,6 +17,7 @@ Ou utilizando os argumentos abaixo: `java -jar Broker.jar -bp 30000 -p -sb local
 
 ### Client
 Utilizando as configurações padrões: `java -jar Client.jar`
+
 Ou utilizando os argumentos abaixo: `java -jar Client.jar -ip 192.168.1.10 -p 30100 -bip 192.168.1.5 -bp 30000 -bbip 192.168.1.6 -bbp 30000 -nc 15 -na 3`
 
 |Args|Descrição|Padrão|Exemplo|

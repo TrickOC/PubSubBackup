@@ -39,11 +39,13 @@ public class PubSubConsumer<S extends Socket> extends GenericConsumer<S> {
             Message response = null;
 
             if(msg.getType().startsWith("syncNewPrimary")) {
-                System.out.println(isPrimary + " - " + secondaryServer + " - " + secondaryPort);
-                response = commands.get(msg.getType()).execute(msg, log, subscribers, isPrimary, secondaryServer, secondaryPort);
-                this.isPrimary = true;
-                this.secondaryServer = null;
-                this.secondaryPort = -1;
+                if (!isPrimary){
+                    System.out.println("--- Upgrade to Primary ---");
+                    response = commands.get(msg.getType()).execute(msg, log, subscribers, isPrimary, secondaryServer, secondaryPort);
+                    this.isPrimary = true;
+                    this.secondaryServer = null;
+                    this.secondaryPort = -1;
+                }
             } else if (!isPrimary && !msg.getType().startsWith("sync")) {
                 response = new MessageImpl();
                 response.setType("backup");
@@ -54,7 +56,7 @@ public class PubSubConsumer<S extends Socket> extends GenericConsumer<S> {
 
                 response = commands.get(msg.getType()).execute(msg, log, subscribers, isPrimary, secondaryServer, secondaryPort);
 
-                if (!msg.getType().equals("notify")) //&& !msg.getType().startsWith("sync"))
+                if (!msg.getType().equals("notify"))
                     uniqueLogId = msg.getLogId();
             }
 

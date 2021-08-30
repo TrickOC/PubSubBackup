@@ -101,7 +101,7 @@ public class OneAppl {
                 List<Message> log = c.getLogMessages();
                 while (log == null) {
                     try {
-                        sleep(200);
+                        sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -135,10 +135,15 @@ public class OneAppl {
                     debug.append(aux.getContent()).append(aux.getLogId()).append(" | ");
                 }
                 System.out.println(debug);*/
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             c.publish("lock " + op + " " + var);
             try {
-                sleep(ThreadLocalRandom.current().nextInt(0, 4000));
+                sleep(ThreadLocalRandom.current().nextInt(0, 2000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

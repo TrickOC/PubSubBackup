@@ -2,7 +2,6 @@ package sync;
 
 import java.util.Set;
 import java.util.SortedSet;
-
 import core.Message;
 import core.MessageImpl;
 import core.PubSubCommand;
@@ -15,7 +14,7 @@ public class SyncNewPrimaryCommand implements PubSubCommand{
 
         Message response = new MessageImpl();
 
-        response.setLogId(m.getLogId());
+        response.setLogId(m.getLogId()+1);
         System.out.println(m.getContent());
         response.setType("sync_primary_ack");
 
